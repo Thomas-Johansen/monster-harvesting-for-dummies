@@ -1,0 +1,2 @@
+# monster-harvesting-for-dummies
+A companion tool for the harvesting and potentially crafting rules presented in "Heliana's Guide To Monster Hunting"
