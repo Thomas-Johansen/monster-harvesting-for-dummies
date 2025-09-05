@@ -1,0 +1,23 @@
+﻿# Default ignored files
+/shelf/
+/workspace.xml
+# Rider ignored files
+/contentModel.xml
+/modules.xml
+/projectSettingsUpdater.xml
+/.idea.monster-harvesting-for-dummies.iml
+# Editor-based HTTP Client requests
+/httpRequests/
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+
+# JetBrains / Rider
+**/.idea/
+*.sln.iml
+*.DotSettings.user
+
+# .NET build artifacts
+**/bin/
+**/obj/
+**/TestResults/
