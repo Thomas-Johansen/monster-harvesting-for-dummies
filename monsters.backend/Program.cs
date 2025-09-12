@@ -1,10 +1,19 @@
+using Microsoft.EntityFrameworkCore;
+using monsters.backend.Services;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+builder.Services.AddControllers();
+
+//Database stuff?
+var conn = builder.Configuration.GetConnectionString("Default");
+builder.Services.AddDbContext<AppDb>(opt =>
+    opt.UseNpgsql(conn));
 
 var app = builder.Build();
 
@@ -14,6 +23,17 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
     app.MapScalarApiReference();
 }
+
+// Database populating test
+/*
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<AppDb>();
+    await DbInitializer.SeedAsync(db);
+}
+*/
+
+// Rest of the stuff
 
 app.UseHttpsRedirection();
 
@@ -37,6 +57,8 @@ app.MapGet("/weatherforecast", () =>
     .WithName("GetWeatherForecast");
 
 app.MapGet("/", () => "Hello world!");
+
+app.MapControllers();
 
 app.Run();
 
