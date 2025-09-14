@@ -2,7 +2,7 @@
 
 public class Component
 {
-    public Guid Id { get; set; }
+    public Guid Id { get; set; } //Use name as id to allow easier manual editing of tables?
     public required string Name { get; set; }
     
     public ICollection<CCLink> CreatureLinks { get; set; } = new List<CCLink>();

@@ -25,13 +25,13 @@ if (app.Environment.IsDevelopment())
 }
 
 // Database populating test
-/*
+
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDb>();
     await DbInitializer.SeedAsync(db);
 }
-*/
+
 
 // Rest of the stuff
 
