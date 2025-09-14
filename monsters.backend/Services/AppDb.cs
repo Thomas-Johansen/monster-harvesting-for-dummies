@@ -20,6 +20,8 @@ public class AppDb : DbContext
             e.HasKey(x => x.Id);
             e.Property(x => x.Name).IsRequired().HasMaxLength(100);
             e.HasIndex(x => x.Name).IsUnique(); // "Eye" should be a single canonical component
+            e.Property(x =>x.isComponent).IsRequired().HasDefaultValue(true);
+            e.Property(x => x.isEdible).IsRequired().HasDefaultValue(false);
         });
             
         b.Entity<CreatureType>(e =>

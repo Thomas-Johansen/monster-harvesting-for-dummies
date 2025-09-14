@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using monsters.backend.Models;
+using System.Text.Json;
 
 namespace monsters.backend.Services;
 
@@ -14,6 +15,7 @@ public class DbInitializer
 
         //Creature Type
         
+        /*
         var aberration  = new CreatureType { Id = Guid.NewGuid(), Name = "Aberration",  AssociatedSkill = HarvestSkill.Arcana};
         var beast       = new CreatureType { Id = Guid.NewGuid(), Name = "Beast",       AssociatedSkill = HarvestSkill.Survival };
         var celestial   = new CreatureType { Id = Guid.NewGuid(), Name = "Celestial",   AssociatedSkill = HarvestSkill.Religion };
@@ -30,22 +32,24 @@ public class DbInitializer
         var undead      = new CreatureType { Id = Guid.NewGuid(), Name = "Undead",      AssociatedSkill = HarvestSkill.Medicine };
         
         db.AddRange(aberration, beast, celestial, construct, dragon, elemental, fey, fiend, giant, humanoid, monstrosity, ooze, plant, undead);
+        */
+        
         
         
         
         //Components
-        
+        List<Component>? components = LoadJsonComponents();
+        if (components != null)
+        {
+            foreach (var component in components)
+            {
+                component.Id = Guid.NewGuid();
+                db.Add(component);
+            }
+        }
 
         
         /*
-        var eye = new Component { Id = Guid.NewGuid(), Name = "Eye"};
-        var heart = new Component { Id = Guid.NewGuid(), Name = "Heart"};
-        
-        var owlbear = new CreatureType { Id = Guid.NewGuid(), Name = "Owlbear",  AssociatedSkill = HarvestSkill.Survival };
-        var redDragon = new CreatureType { Id = Guid.NewGuid(), Name = "Red Dragon",  AssociatedSkill = HarvestSkill.Medicine };
-
-        
-
         db.AddRange(
             eye, heart, owlbear, redDragon,
             new CCLink { CreatureType = owlbear, Component = eye, DifficultyClass = 12 },
@@ -57,5 +61,12 @@ public class DbInitializer
         
         
         await db.SaveChangesAsync();
+    }
+
+    private static List<Component>? LoadJsonComponents()
+    {
+        string json = File.ReadAllText(@"Services\Database\Components.json");
+        List<Component>? components = JsonSerializer.Deserialize<List<Component>>(json);
+        return components;
     }
 }

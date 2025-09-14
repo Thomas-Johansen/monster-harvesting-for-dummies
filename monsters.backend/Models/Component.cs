@@ -7,6 +7,9 @@ public class Component
     public Guid Id { get; set; } //Use name as id to allow easier manual editing of tables?
     public required string Name { get; set; }
     
+    public required bool isComponent  { get; set; }
+    public required bool isEdible { get; set; }
+    
     //TODO: Add "Superscripts"? (Denotes if the component is for eating, crafting, or both)
     
     public ICollection<CCLink> CreatureLinks { get; set; } = new List<CCLink>();

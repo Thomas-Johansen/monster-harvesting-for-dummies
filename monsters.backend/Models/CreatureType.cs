@@ -9,6 +9,4 @@ public class CreatureType
     
     public ICollection<CCLink> ComponentLinks { get; set; } = new List<CCLink>();
     
-    //Refactored due to the whole component DC thing
-    //public required List<Component> Components { get; set; }
 }

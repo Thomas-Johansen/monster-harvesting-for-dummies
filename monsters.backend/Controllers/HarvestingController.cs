@@ -8,7 +8,7 @@ namespace monsters.backend.Controllers
     [ApiController]
     public class HarvestingController : ControllerBase
     {
-        private Component testcomponent = new Component(){Name = "Eye"};
+        private Component testcomponent = new Component(){Name = "Eye", isComponent = true, isEdible = true};
 
 
 

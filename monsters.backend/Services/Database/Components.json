@@ -1,0 +1,17 @@
+﻿[
+  {
+    "Name": "Antenna",
+    "isComponent": true,
+    "isEdible": false
+  },
+  {
+    "Name": "Eye",
+    "isComponent": true,
+    "isEdible": true
+  },
+  {
+    "Name": "Flesh",
+    "isComponent": false,
+    "isEdible": true
+  }
+]
