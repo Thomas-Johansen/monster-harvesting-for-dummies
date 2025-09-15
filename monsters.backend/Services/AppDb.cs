@@ -11,6 +11,8 @@ public class AppDb : DbContext
     
     public DbSet<Component> Components => Set<Component>();
     public DbSet<CreatureType> CreatureTypes => Set<CreatureType>();
+    
+    public DbSet<CCLink> CCLinks => Set<CCLink>();
 
     protected override void OnModelCreating(ModelBuilder b)
     {

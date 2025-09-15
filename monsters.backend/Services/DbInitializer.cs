@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using monsters.backend.Models;
 using System.Text.Json;
+using System.Text.Json.Serialization;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace monsters.backend.Services;
 
@@ -11,53 +13,47 @@ public class DbInitializer
     public static async Task SeedAsync(AppDb db)
     {
         await db.Database.MigrateAsync();
-        if (await db.Components.AnyAsync()) return;
+        
 
         //Creature Type
-        
-        /*
-        var aberration  = new CreatureType { Id = Guid.NewGuid(), Name = "Aberration",  AssociatedSkill = HarvestSkill.Arcana};
-        var beast       = new CreatureType { Id = Guid.NewGuid(), Name = "Beast",       AssociatedSkill = HarvestSkill.Survival };
-        var celestial   = new CreatureType { Id = Guid.NewGuid(), Name = "Celestial",   AssociatedSkill = HarvestSkill.Religion };
-        var construct   = new CreatureType { Id = Guid.NewGuid(), Name = "Construct",   AssociatedSkill = HarvestSkill.Investigation };
-        var dragon      = new CreatureType { Id = Guid.NewGuid(), Name = "Dragon",      AssociatedSkill = HarvestSkill.Survival };
-        var elemental   = new CreatureType { Id = Guid.NewGuid(), Name = "Elemental",   AssociatedSkill = HarvestSkill.Arcana };
-        var fey         = new CreatureType { Id = Guid.NewGuid(), Name = "Fey",         AssociatedSkill = HarvestSkill.Arcana };
-        var fiend       = new CreatureType { Id = Guid.NewGuid(), Name = "Fiend",       AssociatedSkill = HarvestSkill.Religion };
-        var giant       = new CreatureType { Id = Guid.NewGuid(), Name = "Giant",       AssociatedSkill = HarvestSkill.Medicine };
-        var humanoid    = new CreatureType { Id = Guid.NewGuid(), Name = "Humanoid",    AssociatedSkill = HarvestSkill.Medicine };
-        var monstrosity = new CreatureType { Id = Guid.NewGuid(), Name = "Monstrosity", AssociatedSkill = HarvestSkill.Survival };
-        var ooze        = new CreatureType { Id = Guid.NewGuid(), Name = "Ooze",        AssociatedSkill = HarvestSkill.Nature };
-        var plant       = new CreatureType { Id = Guid.NewGuid(), Name = "Plant",       AssociatedSkill = HarvestSkill.Nature };
-        var undead      = new CreatureType { Id = Guid.NewGuid(), Name = "Undead",      AssociatedSkill = HarvestSkill.Medicine };
-        
-        db.AddRange(aberration, beast, celestial, construct, dragon, elemental, fey, fiend, giant, humanoid, monstrosity, ooze, plant, undead);
-        */
-        
-        
-        
-        
-        //Components
-        List<Component>? components = LoadJsonComponents();
-        if (components != null)
+        if (! await db.CreatureTypes.AnyAsync())
         {
-            foreach (var component in components)
+            List<CreatureType>? creatureTypes = LoadJsonCreatureTypes();
+            if (creatureTypes != null)
             {
-                component.Id = Guid.NewGuid();
-                db.Add(component);
+                foreach (var component in creatureTypes)
+                {
+                    component.Id = Guid.NewGuid();
+                }
+                db.AddRange(creatureTypes);
             }
-        }
-
+        } 
+       
+        //Components
+        //Stops process if any data exists in components table
+        if (! await db.Components.AnyAsync())
+        {
+            List<Component>? components = LoadJsonComponents();
+            if (components != null)
+            {
+                foreach (var component in components)
+                {
+                    component.Id = Guid.NewGuid();
+                }
+                db.AddRange(components);
+            }
+        } 
         
-        /*
-        db.AddRange(
-            eye, heart, owlbear, redDragon,
-            new CCLink { CreatureType = owlbear, Component = eye, DifficultyClass = 12 },
-            new CCLink { CreatureType = owlbear, Component = heart, DifficultyClass = 18 },
-            new CCLink { CreatureType = redDragon, Component = eye, DifficultyClass = 13 },   
-            new CCLink { CreatureType = redDragon, Component = heart, DifficultyClass = 22 }
-        );
-        */
+        //CCLinks
+        if (! await db.CCLinks.AnyAsync())
+        {
+            List<CCLink>? ccLinks = await LoadJsonCCLinks(db);
+            if (ccLinks != null)
+            {
+                db.AddRange(ccLinks);
+            }
+        } 
+        
         
         
         await db.SaveChangesAsync();
@@ -68,5 +64,66 @@ public class DbInitializer
         string json = File.ReadAllText(@"Services\Database\Components.json");
         List<Component>? components = JsonSerializer.Deserialize<List<Component>>(json);
         return components;
+    }
+    
+    private static List<CreatureType>? LoadJsonCreatureTypes()
+    {
+        var options = new JsonSerializerOptions
+        {
+            Converters = { new JsonStringEnumConverter() }
+        };
+        string json = File.ReadAllText(@"Services\Database\CreatureTypes.json");
+        List<CreatureType>? creatureTypes = JsonSerializer.Deserialize<List<CreatureType>>(json, options);
+        return creatureTypes;
+    }
+
+    private static async Task<List<CCLink>?> LoadJsonCCLinks(AppDb db)
+    {
+        List<CCLink>? ccLinks = new List<CCLink>();
+        string json = File.ReadAllText(@"Services\Database\CCLinks.json");
+        using var doc = JsonDocument.Parse(json);
+        JsonElement root = doc.RootElement;
+
+        foreach (var creatureType in root.EnumerateObject())
+        {
+            string creatureTypeName = creatureType.Name;
+            JsonElement creatureTypeElement = creatureType.Value;
+            //Console.WriteLine (creatureTypeName);
+            Guid creatureTypeGuid = await GetTypeIdFromDb(db, creatureTypeName);
+
+            foreach (var component in creatureTypeElement.EnumerateArray())
+            {
+                if (!component.TryGetProperty("Name", out var compNameEl)) continue;
+                if (!component.TryGetProperty("DifficultyClass", out var dcEl)) continue;
+
+                string componentName = compNameEl.GetString() ?? "";
+                if (string.IsNullOrWhiteSpace(componentName)) continue;
+
+                int dc = dcEl.GetInt32();
+
+                Guid componentGuid = await GetComponentIdFromDb(db, componentName);
+
+                CCLink link = new CCLink() { CreatureTypeId = creatureTypeGuid, ComponentId = componentGuid, DifficultyClass = dc};
+                ccLinks.Add(link);
+            }
+        }
+
+        if (ccLinks.Count == 0) { ccLinks = null;}
+        return ccLinks;
+    }
+
+    private static async Task<Guid> GetTypeIdFromDb(AppDb db, string name, CancellationToken ct = default)
+    {
+        return await db.CreatureTypes
+            .Where(t => t.Name == name)
+            .Select(t => t.Id)
+            .SingleOrDefaultAsync(ct);
+    }
+    private static async Task<Guid> GetComponentIdFromDb(AppDb db, string name, CancellationToken ct = default)
+    {
+        return await db.Components
+            .Where(t => t.Name == name)
+            .Select(t => t.Id)
+            .SingleOrDefaultAsync(ct);
     }
 }

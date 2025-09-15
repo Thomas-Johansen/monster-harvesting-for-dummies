@@ -1,0 +1,58 @@
+﻿[
+  {
+    "Name": "Aberration",
+    "AssociatedSkill": "Arcana"
+  },
+  {
+    "Name": "Beast",
+    "AssociatedSkill": "Survival"
+  },
+  {
+    "Name": "Celestial",
+    "AssociatedSkill": "Religion"
+  },
+  {
+    "Name": "Construct",
+    "AssociatedSkill": "Investigation"
+  },
+  {
+    "Name": "Dragon",
+    "AssociatedSkill": "Survival"
+  },
+  {
+    "Name": "Elemental",
+    "AssociatedSkill": "Arcana"
+  },
+  {
+    "Name": "Fey",
+    "AssociatedSkill": "Arcana"
+  },
+  {
+    "Name": "Fiend",
+    "AssociatedSkill": "Religion"
+  },
+  {
+    "Name": "Giant",
+    "AssociatedSkill": "Medicine"
+  },
+  {
+    "Name": "Humanoid",
+    "AssociatedSkill": "Medicine"
+  },
+  {
+    "Name": "Monstrosity",
+    "AssociatedSkill": "Survival"
+  },
+  {
+    "Name": "Ooze",
+    "AssociatedSkill": "Nature"
+  },
+  {
+    "Name": "Plant",
+    "AssociatedSkill": "Nature"
+  },
+  {
+    "Name": "Undead",
+    "AssociatedSkill": "Medicine"
+  }
+]

@@ -1,4 +1,4 @@
-﻿namespace monsters.backend.Models;
+﻿namespace monsters.backend.Models.Enums;
 
 public enum CreatureSize
 {

@@ -1,8 +1,10 @@
-﻿namespace monsters.backend.Models;
+﻿using monsters.backend.Models.Enums;
+
+namespace monsters.backend.Models;
 
 public class CreatureType
 {
-    public Guid Id { get; set; } //Use name as id to allow easier manual editing of tables?
+    public Guid Id { get; set; } 
     public required string Name { get; set; }
     
     public required HarvestSkill AssociatedSkill { get; set; }
