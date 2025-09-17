@@ -1,13 +1,74 @@
 ﻿{
   "Aberration": [
-    { "Name": "Antenna", "DifficultyClass": 5, "isCraftingMaterial": true, "isEdible": false},
-    { "Name": "Eye", "DifficultyClass": 5, "isCraftingMaterial": true, "isEdible": true },
-    { "Name": "Flesh", "DifficultyClass": 5, "isCraftingMaterial": false, "isEdible": true }
+      { "Name": "Antenna", "DifficultyClass": 5, "isCraftingMaterial": true,  "isEdible": false },
+      { "Name": "Eye",     "DifficultyClass": 5, "isCraftingMaterial": true,  "isEdible": true  },
+      { "Name": "Flesh",   "DifficultyClass": 5, "isCraftingMaterial": false, "isEdible": true  },
+      { "Name": "Phial of Blood", "DifficultyClass": 5, "isCraftingMaterial": true, "isEdible": true },
+
+      { "Name": "Bone",    "DifficultyClass": 10, "isCraftingMaterial": true,  "isEdible": true  },
+      { "Name": "Egg",     "DifficultyClass": 10, "isCraftingMaterial": false, "isEdible": true  },
+      { "Name": "Fat",     "DifficultyClass": 10, "isCraftingMaterial": true, "isEdible": true  },
+      { "Name": "Pouch of Claws", "DifficultyClass": 10, "isCraftingMaterial": true, "isEdible": false },
+      { "Name": "Pouch of Teeth", "DifficultyClass": 10, "isCraftingMaterial": true, "isEdible": false },
+      { "Name": "Tentacle", "DifficultyClass": 10, "isCraftingMaterial": true, "isEdible": false },
+
+      { "Name": "Heart",   "DifficultyClass": 15, "isCraftingMaterial": false, "isEdible": true  },
+      { "Name": "Phial of Mucus", "DifficultyClass": 15, "isCraftingMaterial": true, "isEdible": false },
+      { "Name": "Liver",   "DifficultyClass": 15, "isCraftingMaterial": false, "isEdible": true  },
+      { "Name": "Stinger", "DifficultyClass": 15, "isCraftingMaterial": true,  "isEdible": false },
+
+      { "Name": "Brain",   "DifficultyClass": 20, "isCraftingMaterial": true,  "isEdible": true  },
+      { "Name": "Chitin",  "DifficultyClass": 20, "isCraftingMaterial": true,  "isEdible": false },
+      { "Name": "Hide",    "DifficultyClass": 20, "isCraftingMaterial": true,  "isEdible": false },
+      { "Name": "Main Eye","DifficultyClass": 20, "isCraftingMaterial": true,  "isEdible": false }
   ],
   "Beast": [
-    { "Name": "Antenna", "DifficultyClass": 5, "isCraftingMaterial": true, "isEdible": false}
+    { "Name": "Antenna",       "DifficultyClass": 5,  "isCraftingMaterial": true,  "isEdible": true },
+    { "Name": "Eye",           "DifficultyClass": 5,  "isCraftingMaterial": true,  "isEdible": true  },
+    { "Name": "Flesh",         "DifficultyClass": 5,  "isCraftingMaterial": false, "isEdible": true  },
+    { "Name": "Phial of Blood","DifficultyClass": 5,  "isCraftingMaterial": true,  "isEdible": true  },
+
+    { "Name": "Antler",        "DifficultyClass": 10, "isCraftingMaterial": true,  "isEdible": false },
+    { "Name": "Beak",          "DifficultyClass": 10, "isCraftingMaterial": true,  "isEdible": false },
+    { "Name": "Bone",          "DifficultyClass": 10, "isCraftingMaterial": true,  "isEdible": true  },
+    { "Name": "Egg",           "DifficultyClass": 10, "isCraftingMaterial": false, "isEdible": true  },
+    { "Name": "Fat",           "DifficultyClass": 10, "isCraftingMaterial": true,  "isEdible": true  },
+    { "Name": "Fin",           "DifficultyClass": 10, "isCraftingMaterial": true,  "isEdible": false },
+    { "Name": "Horn",          "DifficultyClass": 10, "isCraftingMaterial": true,  "isEdible": false },
+    { "Name": "Pincer",        "DifficultyClass": 10, "isCraftingMaterial": true,  "isEdible": false },
+    { "Name": "Pouch of Claws","DifficultyClass": 10, "isCraftingMaterial": true,  "isEdible": false },
+    { "Name": "Pouch of Teeth","DifficultyClass": 10, "isCraftingMaterial": true,  "isEdible": false },
+    { "Name": "Talon",         "DifficultyClass": 10, "isCraftingMaterial": true,  "isEdible": false },
+    { "Name": "Tusk",          "DifficultyClass": 10, "isCraftingMaterial": true,  "isEdible": false },
+
+    { "Name": "Heart",         "DifficultyClass": 15, "isCraftingMaterial": true, "isEdible": true  },
+    { "Name": "Liver",         "DifficultyClass": 15, "isCraftingMaterial": true, "isEdible": true  },
+    { "Name": "Poison Gland",  "DifficultyClass": 15, "isCraftingMaterial": true,  "isEdible": false },
+    { "Name": "Pouch of Feathers","DifficultyClass": 15,"isCraftingMaterial": true, "isEdible": false },
+    { "Name": "Pouch of Scales","DifficultyClass": 15, "isCraftingMaterial": true, "isEdible": false },
+    { "Name": "Stinger",       "DifficultyClass": 15, "isCraftingMaterial": true,  "isEdible": false },
+    { "Name": "Tentacle",      "DifficultyClass": 15, "isCraftingMaterial": true,  "isEdible": false },
+
+    { "Name": "Chitin",        "DifficultyClass": 20, "isCraftingMaterial": true,  "isEdible": false },
+    { "Name": "Pelt",          "DifficultyClass": 20, "isCraftingMaterial": true,  "isEdible": false }
   ],
   "Celestial": [
+    { "Name": "Eye",           "DifficultyClass": 5,  "isCraftingMaterial": true,  "isEdible": true  },
+    { "Name": "Flesh",         "DifficultyClass": 5,  "isCraftingMaterial": false, "isEdible": true  },
+    { "Name": "Phial of Blood","DifficultyClass": 5,  "isCraftingMaterial": true,  "isEdible": true  },
 
+    { "Name": "Bone",          "DifficultyClass": 10, "isCraftingMaterial": true,  "isEdible": true  },
+    { "Name": "Egg",           "DifficultyClass": 10, "isCraftingMaterial": false, "isEdible": true  },
+    { "Name": "Fat",           "DifficultyClass": 10, "isCraftingMaterial": true, "isEdible": true  },
+    { "Name": "Pouch of Claws","DifficultyClass": 10, "isCraftingMaterial": true,  "isEdible": false },
+    { "Name": "Pouch of Teeth","DifficultyClass": 10, "isCraftingMaterial": true,  "isEdible": false },
+
+    { "Name": "Horn",          "DifficultyClass": 15, "isCraftingMaterial": true,  "isEdible": false },
+    { "Name": "Liver",         "DifficultyClass": 15, "isCraftingMaterial": false, "isEdible": true  },
+    { "Name": "Pouch of Scales","DifficultyClass": 15,"isCraftingMaterial": true,  "isEdible": false },
+
+    { "Name": "Heart",         "DifficultyClass": 20, "isCraftingMaterial": true, "isEdible": true  },
+
+    { "Name": "Breath Sac",    "DifficultyClass": 25, "isCraftingMaterial": true,  "isEdible": false }
   ]
 }

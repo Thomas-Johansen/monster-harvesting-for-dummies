@@ -41,7 +41,6 @@ public class DbInitializer
         } 
         
         
-        
         await db.SaveChangesAsync();
     }
     
