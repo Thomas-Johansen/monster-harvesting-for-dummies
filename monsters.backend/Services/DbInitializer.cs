@@ -28,42 +28,21 @@ public class DbInitializer
                 db.AddRange(creatureTypes);
             }
         } 
-       
+        
+        
         //Components
-        //Stops process if any data exists in components table
         if (! await db.Components.AnyAsync())
         {
-            List<Component>? components = LoadJsonComponents();
+            List<Component>? components = await LoadJsonComponents(db);
             if (components != null)
             {
-                foreach (var component in components)
-                {
-                    component.Id = Guid.NewGuid();
-                }
                 db.AddRange(components);
-            }
-        } 
-        
-        //CCLinks
-        if (! await db.CCLinks.AnyAsync())
-        {
-            List<CCLink>? ccLinks = await LoadJsonCCLinks(db);
-            if (ccLinks != null)
-            {
-                db.AddRange(ccLinks);
             }
         } 
         
         
         
         await db.SaveChangesAsync();
-    }
-
-    private static List<Component>? LoadJsonComponents()
-    {
-        string json = File.ReadAllText(@"Services\Database\Components.json");
-        List<Component>? components = JsonSerializer.Deserialize<List<Component>>(json);
-        return components;
     }
     
     private static List<CreatureType>? LoadJsonCreatureTypes()
@@ -77,10 +56,10 @@ public class DbInitializer
         return creatureTypes;
     }
 
-    private static async Task<List<CCLink>?> LoadJsonCCLinks(AppDb db)
+    private static async Task<List<Component>?> LoadJsonComponents(AppDb db)
     {
-        List<CCLink>? ccLinks = new List<CCLink>();
-        string json = File.ReadAllText(@"Services\Database\CCLinks.json");
+        List<Component>? components = new List<Component>();
+        string json = File.ReadAllText(@"Services\Database\Components.json");
         using var doc = JsonDocument.Parse(json);
         JsonElement root = doc.RootElement;
 
@@ -95,21 +74,33 @@ public class DbInitializer
             {
                 if (!component.TryGetProperty("Name", out var compNameEl)) continue;
                 if (!component.TryGetProperty("DifficultyClass", out var dcEl)) continue;
+                if (!component.TryGetProperty("isCraftingMaterial", out var compIsCraftingMaterialEl)) continue;
+                if (!component.TryGetProperty("isEdible", out var compIsEdibleEl)) continue;
 
                 string componentName = compNameEl.GetString() ?? "";
                 if (string.IsNullOrWhiteSpace(componentName)) continue;
 
                 int dc = dcEl.GetInt32();
+                
+                bool isCraftingMaterial = compIsCraftingMaterialEl.GetBoolean();
+                bool isEdible = compIsEdibleEl.GetBoolean();
 
-                Guid componentGuid = await GetComponentIdFromDb(db, componentName);
 
-                CCLink link = new CCLink() { CreatureTypeId = creatureTypeGuid, ComponentId = componentGuid, DifficultyClass = dc};
-                ccLinks.Add(link);
+                Component link = new Component()
+                {
+                    Id = new Guid(),
+                    CreatureTypeId = creatureTypeGuid,
+                    Name = componentName,
+                    DifficultyClass = dc,
+                    isCraftingMaterial = isCraftingMaterial,
+                    isEdible = isEdible,
+                };
+                components.Add(link);
             }
         }
 
-        if (ccLinks.Count == 0) { ccLinks = null;}
-        return ccLinks;
+        if (components.Count == 0) { components = null;}
+        return components;
     }
 
     private static async Task<Guid> GetTypeIdFromDb(AppDb db, string name, CancellationToken ct = default)

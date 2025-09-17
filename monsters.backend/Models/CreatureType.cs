@@ -9,6 +9,6 @@ public class CreatureType
     
     public required HarvestSkill AssociatedSkill { get; set; }
     
-    public ICollection<CCLink> ComponentLinks { get; set; } = new List<CCLink>();
+    public ICollection<Component> Components { get; set; } = new List<Component>();
     
 }

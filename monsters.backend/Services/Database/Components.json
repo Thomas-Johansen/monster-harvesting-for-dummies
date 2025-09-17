@@ -1,17 +1,13 @@
-﻿[
-  {
-    "Name": "Antenna",
-    "isComponent": true,
-    "isEdible": false
-  },
-  {
-    "Name": "Eye",
-    "isComponent": true,
-    "isEdible": true
-  },
-  {
-    "Name": "Flesh",
-    "isComponent": false,
-    "isEdible": true
-  }
-]
+﻿{
+  "Aberration": [
+    { "Name": "Antenna", "DifficultyClass": 5, "isCraftingMaterial": true, "isEdible": false},
+    { "Name": "Eye", "DifficultyClass": 5, "isCraftingMaterial": true, "isEdible": true },
+    { "Name": "Flesh", "DifficultyClass": 5, "isCraftingMaterial": false, "isEdible": true }
+  ],
+  "Beast": [
+    { "Name": "Antenna", "DifficultyClass": 5, "isCraftingMaterial": true, "isEdible": false}
+  ],
+  "Celestial": [
+
+  ]
+}

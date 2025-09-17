@@ -11,8 +11,6 @@ public class AppDb : DbContext
     
     public DbSet<Component> Components => Set<Component>();
     public DbSet<CreatureType> CreatureTypes => Set<CreatureType>();
-    
-    public DbSet<CCLink> CCLinks => Set<CCLink>();
 
     protected override void OnModelCreating(ModelBuilder b)
     {
@@ -21,8 +19,8 @@ public class AppDb : DbContext
         {
             e.HasKey(x => x.Id);
             e.Property(x => x.Name).IsRequired().HasMaxLength(100);
-            e.HasIndex(x => x.Name).IsUnique(); // "Eye" should be a single canonical component
-            e.Property(x =>x.isComponent).IsRequired().HasDefaultValue(true);
+            e.Property(x => x.DifficultyClass).IsRequired();
+            e.Property(x =>x.isCraftingMaterial).IsRequired().HasDefaultValue(true);
             e.Property(x => x.isEdible).IsRequired().HasDefaultValue(false);
         });
             
@@ -32,24 +30,12 @@ public class AppDb : DbContext
             e.Property(x => x.Name).IsRequired().HasMaxLength(200);
             e.HasIndex(x => x.Name).IsUnique();
             e.Property(x => x.AssociatedSkill).HasConversion<string>().HasMaxLength(50);
-        });
-        
-        b.Entity<CCLink>(e =>
-        {
-            // Composite PK: one row per (creature, component)
-            e.HasKey(x => new { x.CreatureTypeId, x.ComponentId });
-
-            e.Property(x => x.DifficultyClass).IsRequired();
-
-            e.HasOne(x => x.CreatureType)
-                .WithMany(ct => ct.ComponentLinks)
+            
+            e.HasMany(x => x.Components)
+                .WithOne(x => x.CreatureType)
                 .HasForeignKey(x => x.CreatureTypeId)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            e.HasOne(x => x.Component)
-                .WithMany(c => c.CreatureLinks)
-                .HasForeignKey(x => x.ComponentId)
-                .OnDelete(DeleteBehavior.Cascade);
         });
+        
     }
 }
